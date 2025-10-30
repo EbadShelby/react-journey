@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>test</title>
+  </head>
+  <body class="bg-gray-400">
+    <div class="js-container"></div>
+
+    <!-- ---------------------------------------------------------- -->
+    <script src="react-basics.js"></script>
+
+    <!-- React development versions from CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <!-- react-dom for website and react-native for mobile -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+
+    <!-- babel translate normal JSX to JS -->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      const div = (
+        <div>
+          <button class="border p-2">submit</button>
+          <p>text: {2 + 2}</p>
+        </div>
+      );
+
+      const container = document.querySelector(".js-container");
+
+      ReactDOM.createRoot(container).render(div);
+    </script>
+  </body>
+</html>
