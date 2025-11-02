@@ -5,33 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>chatbot</title>
-    <style>
-      body {
-        margin: 10px;
-      }
-      input {
-        border: 1px solid black;
-      }
-      button {
-        color: white;
-        background-color: darkblue;
-        padding: 0.25em 1em;
-      }
-      .message-icon {
-        width: 50px;
-      }
-      .chat-messages {
-        display: flex;
-        gap: 8px;
-      }
-      .chat-message {
-        background-color: gray;
-        display: flex;
-        align-items: center;
-        padding: 0.75em;
-        border-radius: 0.5em;
-      }
-    </style>
+    <link rel="stylesheet" href="chatbot.css" />
   </head>
   <body class="bg-gray-400">
     <!-- entry point -->
@@ -57,49 +31,72 @@
     <script type="text/babel">
       function ChatInput() {
         return (
-          <div class="chat-input-group">
+          <div className="chat-input-group">
             <input placeholder="Send a message to the Chatbot" size="30" />
             <button>Send</button>
           </div>
         );
       }
 
-      function ChatMessage({ message, sender }) {
-        // const message = props.message;
-        // const sender = props.sender;
-
-        // const {message, sender} = props;
-
-        /*if (sender === "robot") {
-          return (
-            <div class="chat-messages">
-              <img src="robot.png" class="message-icon" />
-              <div class="chat-message">
-                <p>{message}</p>
-              </div>
-            </div>
-          );
-        }
-        if (sender === "user") {
-          return (
-            <div class="chat-messages">
-              <div class="chat-message">
-                <p>{message}</p>
-              </div>
-              {sender === "user" && <img src="user.png" class="message-icon" />}
-            </div>
-          );
-        }
-        */
-
+      function ChatMessage({ message, sender, index }) {
         return (
-          <div class="chat-messages">
-            {sender === "robot" && <img src="robot.png" class="message-icon" />}
-            <div class="chat-message">
+          <div className="chat-messages">
+            {sender === "robot" && (
+              <img src="robot.png" className="message-icon" />
+            )}
+            <div className="chat-message">
               <p>{message}</p>
             </div>
-            {sender === "user" && <img src="user.png" class="message-icon" />}
+            {sender === "user" && (
+              <img src="user.png" className="message-icon" />
+            )}
           </div>
+        );
+      }
+
+      function ChatMessages() {
+        // convert data into a reactive data
+        const [chatMessages, setChatMessages] = React.useState([
+          { message: "hello chatbot", sender: "user", id: "id1" },
+          { message: "Hi! How can I help you?", sender: "robot", id: "id2" },
+          { message: "can you get me todays date?", sender: "user", id: "id3" },
+          { message: "No.", sender: "robot", id: "id4" },
+        ]);
+        /*
+        1st value: the data
+        const chatMessages = array[0];
+        2nd value: function to update the data
+        const setChatMessages = array[1];
+        */
+
+        function sendMessage() {
+          // store the new chat data first
+          const newMessages = [
+            ...chatMessages,
+            {
+              message: "this is a new message",
+              sender: "user",
+              id: crypto.randomUUID(),
+            },
+          ];
+          // add the new chat to the array data using the updater function
+          setChatMessages(newMessages);
+          console.log(newMessages);
+        }
+
+        return (
+          <>
+            <button onClick={sendMessage}>Send Message</button>
+            {chatMessages.map((chatMessage, index) => {
+              return (
+                <ChatMessage
+                  message={chatMessage.message}
+                  sender={chatMessage.sender}
+                  key={chatMessage.id}
+                />
+              );
+            })}
+          </>
         );
       }
 
@@ -107,10 +104,7 @@
         return (
           <>
             <ChatInput />
-            <ChatMessage message="hello chatbot" sender="user" />
-            <ChatMessage message="Hi! How can I help you?" sender="robot" />
-            <ChatMessage message="can you get me todays date?" sender="user" />
-            <ChatMessage message="NO." sender="robot" />
+            <ChatMessages />
           </>
         );
       }
