@@ -19,6 +19,7 @@ button:active {
 .chat-messages {
   display: flex;
   gap: 8px;
+  margin-block: 1em;
 }
 .chat-message {
   background-color: gray;

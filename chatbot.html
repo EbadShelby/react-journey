@@ -24,6 +24,8 @@
       crossorigin
       src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
     ></script>
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
+
     <!-- babel translate normal JSX to JS -->
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <!-- ---------------------------------------------------------- -->
@@ -41,7 +43,8 @@
         }
 
         function sendMessage() {
-          const newMessage = [
+          // make new variable and add the chat messages then push new message
+          let newChatMessages = [
             ...chatMessages,
             {
               message: inputText,
@@ -49,10 +52,27 @@
               id: crypto.randomUUID(),
             },
           ];
-          // add the new chat to the array data using the updater function
-          setChatMessages(newMessage);
-          console.log(inputText);
+          // update the real chat messages data
+          setChatMessages(newChatMessages);
+
+          const response = Chatbot.getResponse(inputText);
+          // update the new chat messages to include the chatbot response
+          newChatMessages = [
+            ...newChatMessages,
+            {
+              message: response,
+              sender: "robot",
+              id: crypto.randomUUID(),
+            },
+          ];
+          // update the real chat messages data again to include the chatbot responsee
+          setChatMessages(newChatMessages);
           setInputText("");
+        }
+        function handleKeyDown(event) {
+          if (event.key === "Enter") {
+            sendMessage();
+          }
         }
 
         return (
@@ -61,6 +81,7 @@
               placeholder="Send a message to the Chatbot"
               size="30"
               onChange={saveInputText}
+              onKeyDown={handleKeyDown}
               value={inputText}
             />
             <button onClick={sendMessage}>Send</button>
