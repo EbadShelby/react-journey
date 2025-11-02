@@ -29,7 +29,10 @@
     <!-- ---------------------------------------------------------- -->
 
     <script type="text/babel">
-      function ChatInput() {
+      /*
+        Chat Input Component
+      */
+      function ChatInput({ chatMessages, setChatMessages }) {
         let [inputText, setInputText] = React.useState("");
 
         function saveInputText(event) {
@@ -38,7 +41,18 @@
         }
 
         function sendMessage() {
+          const newMessage = [
+            ...chatMessages,
+            {
+              message: inputText,
+              sender: "user",
+              id: crypto.randomUUID(),
+            },
+          ];
+          // add the new chat to the array data using the updater function
+          setChatMessages(newMessage);
           console.log(inputText);
+          setInputText("");
         }
 
         return (
@@ -47,12 +61,16 @@
               placeholder="Send a message to the Chatbot"
               size="30"
               onChange={saveInputText}
+              value={inputText}
             />
             <button onClick={sendMessage}>Send</button>
           </div>
         );
       }
 
+      /*
+        Chat Message component
+      */
       function ChatMessage({ message, sender, index }) {
         return (
           <div className="chat-messages">
@@ -69,39 +87,12 @@
         );
       }
 
-      function ChatMessages() {
-        // convert data into a reactive data
-        const [chatMessages, setChatMessages] = React.useState([
-          { message: "hello chatbot", sender: "user", id: "id1" },
-          { message: "Hi! How can I help you?", sender: "robot", id: "id2" },
-          { message: "can you get me todays date?", sender: "user", id: "id3" },
-          { message: "No.", sender: "robot", id: "id4" },
-        ]);
-        /*
-        1st value: the data
-        const chatMessages = array[0];
-        2nd value: function to update the data
-        const setChatMessages = array[1];
-        */
-
-        function sendMessage() {
-          // store the new chat data first
-          const newMessages = [
-            ...chatMessages,
-            {
-              message: "this is a new message",
-              sender: "user",
-              id: crypto.randomUUID(),
-            },
-          ];
-          // add the new chat to the array data using the updater function
-          setChatMessages(newMessages);
-          console.log(newMessages);
-        }
-
+      /*
+        Chat Messages component
+      */
+      function ChatMessages({ chatMessages }) {
         return (
           <>
-            <button onClick={sendMessage}>Send Message</button>
             {chatMessages.map((chatMessage, index) => {
               return (
                 <ChatMessage
@@ -115,11 +106,31 @@
         );
       }
 
+      /*
+        App component
+      */
       function App() {
+        // convert data into a reactive data
+        const [chatMessages, setChatMessages] = React.useState([
+          { message: "hello chatbot", sender: "user", id: "id1" },
+          { message: "Hi! How can I help you?", sender: "robot", id: "id2" },
+          { message: "can you get me todays date?", sender: "user", id: "id3" },
+          { message: "No.", sender: "robot", id: "id4" },
+        ]);
+        /*
+          1st value: the data
+          const chatMessages = array[0];
+          2nd value: function to update the data
+          const setChatMessages = array[1];
+        */
+
         return (
           <>
-            <ChatInput />
-            <ChatMessages />
+            <ChatInput
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+            />
+            <ChatMessages chatMessages={chatMessages} />
           </>
         );
       }
