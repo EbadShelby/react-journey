@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="lesson-3.css" />
+    <title>Lesson 3</title>
+  </head>
+  <body class="bg-gray-300">
+    <div class="js-container"></div>
+
+    <!-- React development versions from CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <!-- react-dom for website and react-native for mobile -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- babel translate normal JSX to JS -->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script type="text/babel">
+      // Counter Component
+      function Counter({ count, setCount }) {
+        function increaseCount() {
+          let newCount = count + 1;
+          setCount(newCount);
+        }
+        return (
+          <>
+            <button onClick={increaseCount}>
+              Click me {count} {count <= 1 ? "time" : "times"}
+            </button>
+          </>
+        );
+      }
+
+      function App() {
+        const [count, setCount] = React.useState(0);
+
+        function resetCount() {
+          setCount(0);
+        }
+
+        return (
+          <div>
+            <Counter count={count} setCount={setCount} />
+            <Counter count={count} setCount={setCount} />
+            <button onClick={resetCount}>Reset</button>
+          </div>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

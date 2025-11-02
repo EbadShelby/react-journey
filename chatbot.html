@@ -65,10 +65,11 @@
               id: crypto.randomUUID(),
             },
           ];
-          // update the real chat messages data again to include the chatbot responsee
+          // update the real chat messages data again to include the chatbot response
           setChatMessages(newChatMessages);
           setInputText("");
         }
+
         function handleKeyDown(event) {
           if (event.key === "Enter") {
             sendMessage();
