@@ -34,7 +34,7 @@
           @apply overflow-scroll;
         }
         .chat-messages-group {
-          scrollbar-width: none
+          scrollbar-width: none;
         }
         .user-chat {
           @apply flex gap-2 my-4 justify-end;
@@ -54,7 +54,6 @@
     <div class="js-container"></div>
 
     <!-- ---------------------------------------------------------- -->
-    <script src="react-basics.js"></script>
 
     <!-- React development versions from CDN -->
     <script
@@ -169,8 +168,18 @@
         Chat Messages component
       */
       function ChatMessages({ chatMessages }) {
+        const chatMessagesRef = React.useRef(null);
+
+        React.useEffect(() => {
+          const containerElem = chatMessagesRef.current;
+          if (containerElem) {
+            console.log(containerElem);
+            
+            containerElem.scrollTop = containerElem.scrollHeight;
+          }
+        }, [chatMessages]);
         return (
-          <div className="chat-messages-group">
+          <div className="chat-messages-group" ref={chatMessagesRef}>
             {chatMessages.map((chatMessage, index) => {
               return (
                 <ChatMessage
