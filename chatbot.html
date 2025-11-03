@@ -5,7 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <title>chatbot</title>
-    <link rel="stylesheet" href="chatbot.css" />
+    <style type="text/tailwindcss">
+      @layer base {
+        input {
+          @apply border-2 py-1 mr-4 rounded-lg px-2;
+        }
+        button {
+          @apply text-white py-2 px-8 bg-green-700 rounded-lg cursor-pointer active:opacity-70;
+        }
+      }
+      @layer utilities {
+        .message-icon {
+          @apply size-12;
+        }
+        .chat-message {
+          @apply bg-gray-600 flex items-center p-3 rounded-lg text-white;
+        }
+        .js-container {
+          @apply flex flex-col justify-between mt-3 max-w-150 w-full mx-auto bg-gray-300 p-4 rounded-2xl h-screen;
+        }
+        .chat-input-group {
+          @apply flex py-2;
+        }
+        .chat-input-group input {
+          @apply flex-grow;
+        }
+        .chat-messages-group {
+          @apply overflow-scroll;
+        }
+        .chat-messages-group {
+          scrollbar-width: none
+        }
+        .user-chat {
+          @apply flex gap-2 my-4 justify-end;
+        }
+        .robot-chat {
+          @apply flex gap-2 my-4 justify-start items-start;
+        }
+        .user-chat p,
+        .robot-chat p {
+          @apply max-w-100;
+        }
+      }
+    </style>
   </head>
   <body class="bg-gray-400">
     <!-- entry point -->
@@ -109,7 +151,7 @@
       */
       function ChatMessage({ message, sender, index }) {
         return (
-          <div className="chat-messages">
+          <div className={sender === "user" ? "user-chat" : "robot-chat"}>
             {sender === "robot" && (
               <img src="robot.png" className="message-icon" />
             )}
@@ -128,7 +170,7 @@
       */
       function ChatMessages({ chatMessages }) {
         return (
-          <>
+          <div className="chat-messages-group">
             {chatMessages.map((chatMessage, index) => {
               return (
                 <ChatMessage
@@ -138,7 +180,7 @@
                 />
               );
             })}
-          </>
+          </div>
         );
       }
 
@@ -162,11 +204,11 @@
 
         return (
           <>
+            <ChatMessages chatMessages={chatMessages} />
             <ChatInput
               chatMessages={chatMessages}
               setChatMessages={setChatMessages}
             />
-            <ChatMessages chatMessages={chatMessages} />
           </>
         );
       }
