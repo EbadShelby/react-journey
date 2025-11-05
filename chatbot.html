@@ -96,7 +96,9 @@
               id: crypto.randomUUID(),
             },
             {
-              message: "Loading...",
+              message: (
+                <img className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+              ),
               sender: "robot",
               id: crypto.randomUUID(),
             },
@@ -168,16 +170,20 @@
         Chat Messages component
       */
       function ChatMessages({ chatMessages }) {
-        const chatMessagesRef = React.useRef(null);
+        const chatMessagesRef = useAutoScroll([chatMessages]);
 
-        React.useEffect(() => {
-          const containerElem = chatMessagesRef.current;
-          if (containerElem) {
-            console.log(containerElem);
-            
-            containerElem.scrollTop = containerElem.scrollHeight;
-          }
-        }, [chatMessages]);
+        function useAutoScroll(dependencies) {
+          const containerRef = React.useRef(null);
+
+          React.useEffect(() => {
+            const containerElem = containerRef.current;
+            if (containerElem) {
+              containerElem.scrollTop = containerElem.scrollHeight;
+            }
+          }, dependencies);
+
+          return containerRef;
+        }
         return (
           <div className="chat-messages-group" ref={chatMessagesRef}>
             {chatMessages.map((chatMessage, index) => {
@@ -198,12 +204,7 @@
       */
       function App() {
         // convert data into a reactive data
-        const [chatMessages, setChatMessages] = React.useState([
-          { message: "hello chatbot", sender: "user", id: "id1" },
-          { message: "Hi! How can I help you?", sender: "robot", id: "id2" },
-          { message: "can you get me todays date?", sender: "user", id: "id3" },
-          { message: "No.", sender: "robot", id: "id4" },
-        ]);
+        const [chatMessages, setChatMessages] = React.useState([]);
         /*
           1st value: the data
           const chatMessages = array[0];
@@ -213,7 +214,15 @@
 
         return (
           <>
-            <ChatMessages chatMessages={chatMessages} />
+            {chatMessages.length === 0 ? (
+              <p className="text-center my-auto">
+                Welcome to the chatbot project!
+                <br />
+                Send a message using the textbox Below.
+              </p>
+            ) : (
+              <ChatMessages chatMessages={chatMessages} />
+            )}
             <ChatInput
               chatMessages={chatMessages}
               setChatMessages={setChatMessages}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>form</title>
+  </head>
+  <body class="bg-blue-900/70 m-4">
+    <!-- React Entry point -->
+    <div class="js-container"></div>
+    <!-- React development versions from CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <!-- react-dom for website and react-native for mobile -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- babel translate normal JSX to JS -->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script type="text/babel">
+      function App() {
+        const [showPassword, setShowPassword] = React.useState(false);
+
+        function handlePasswordToggle() {
+          setShowPassword(!showPassword);
+        }
+
+        return (
+          <div>
+            <h2 className="text-2xl mb-4">Hello, Welcome to my website</h2>
+            <form action="">
+              <div>
+                <input
+                  className="border-2 border-gray-800 rounded-lg mb-2 py-1 px-2"
+                  type="text"
+                  placeholder="Email"
+                />
+                <br />
+                <div>
+                  <input
+                    className="border-2 border-gray-800 rounded-lg py-1 px-2 mb-2"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                  />
+                  <button
+                    type="button"
+                    className="bg-blue-700 px-4 py-2 ml-2 text-white rounded-lg mr-2"
+                    onClick={handlePasswordToggle}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+              </div>
+              <button className="bg-blue-700 px-4 py-2 text-white rounded-lg mr-2">
+                Login
+              </button>
+              <button className="bg-blue-700 px-4 py-2 text-white rounded-lg">
+                Sign up
+              </button>
+            </form>
+          </div>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
