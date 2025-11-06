@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+  input {
+    @apply mr-4 rounded-lg border-2 px-2 py-1 text-black;
+  }
+  button {
+    @apply cursor-pointer rounded-lg bg-green-700 px-8 py-2 text-white active:opacity-70;
+  }
+}
+@layer utilities {
+  #root {
+    @apply mx-auto mt-3 flex h-screen w-full max-w-150 flex-col justify-between rounded-2xl bg-gray-300 p-4;
+  }
+}

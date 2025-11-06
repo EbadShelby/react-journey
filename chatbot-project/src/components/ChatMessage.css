@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@layer utilities {
+  .message-icon {
+    @apply size-12;
+  }
+  .chat-message {
+    @apply flex items-center rounded-lg bg-gray-600 p-3 text-white;
+  }
+}
