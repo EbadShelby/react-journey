@@ -1,6 +1,7 @@
-import { useState} from "react";
+import { useState } from "react";
 import { Chatbot } from "supersimpledev";
 import "./ChatInput.css";
+import dayjs from "dayjs";
 
 export default function ChatInput({ chatMessages, setChatMessages }) {
   let [inputText, setInputText] = useState("");
@@ -14,17 +15,23 @@ export default function ChatInput({ chatMessages, setChatMessages }) {
   async function sendMessage() {
     if (isLoading) return;
     setLoading(true);
+    const messageTime = dayjs().format("H:mm");
+
     // make new variable and add the chat messages then push new message
     let newChatMessages = [
       ...chatMessages,
       {
         message: inputText,
         sender: "user",
+        time: messageTime,
         id: crypto.randomUUID(),
       },
       {
         message: (
-          <img className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          <div className="flex items-center gap-2">
+            <span>Thinking </span>
+            <img className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+          </div>
         ),
         sender: "robot",
         id: crypto.randomUUID(),
@@ -41,12 +48,17 @@ export default function ChatInput({ chatMessages, setChatMessages }) {
         {
           message: response,
           sender: "robot",
+          time: messageTime,
           id: crypto.randomUUID(),
         },
       ];
     // update the real chat messages data again to include the chatbot response
     setChatMessages(newChatMessages);
     setInputText("");
+  }
+
+  function clearMessage() {
+    setChatMessages([]);
   }
 
   function handleKeyDown(event) {
@@ -67,8 +79,19 @@ export default function ChatInput({ chatMessages, setChatMessages }) {
         onKeyDown={handleKeyDown}
         value={inputText}
       />
-      <button disabled={isLoading} onClick={sendMessage}>
+      <button
+        className="bg-green-500"
+        disabled={isLoading}
+        onClick={sendMessage}
+      >
         Send
+      </button>
+      <button
+        className="bg-gray-500"
+        disabled={isLoading}
+        onClick={clearMessage}
+      >
+        Clear
       </button>
     </div>
   );

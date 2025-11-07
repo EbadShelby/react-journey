@@ -1,12 +1,6 @@
 @import "tailwindcss";
 
 @layer utilities {
-  .chat-input-group {
-    @apply flex py-2;
-  }
-  .chat-input-group input {
-    @apply grow;
-  }
   .chat-messages-group {
     @apply overflow-scroll;
   }

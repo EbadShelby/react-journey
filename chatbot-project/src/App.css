@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 @layer base {
+  body {
+    @apply bg-gray-400;
+  }
   input {
     @apply mr-4 rounded-lg border-2 px-2 py-1 text-black;
   }
   button {
-    @apply cursor-pointer rounded-lg bg-green-700 px-8 py-2 text-white active:opacity-70;
+    @apply mx-1 cursor-pointer rounded-lg px-8 py-2 font-medium active:opacity-70;
   }
 }
 @layer utilities {

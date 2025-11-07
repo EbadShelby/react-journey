@@ -25,6 +25,7 @@ export default function ChatMessages({ chatMessages }) {
             message={chatMessage.message}
             sender={chatMessage.sender}
             key={chatMessage.id}
+            time={chatMessage.time}
           />
         );
       })}
